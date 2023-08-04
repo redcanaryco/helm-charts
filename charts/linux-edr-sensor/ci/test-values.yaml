@@ -1,0 +1,5 @@
+config:
+  accessToken: token
+  outpostAuthToken: token
+image:
+  tag: latest

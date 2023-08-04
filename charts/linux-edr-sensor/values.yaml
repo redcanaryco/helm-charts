@@ -6,58 +6,82 @@ image:
   # -- The image repository to pull from<br>
   # <REPLACE_WITH_YOUR_REGISTRY>/canary_forwarder
   repository: redcanary-forwarder-docker-prod-local.jfrog.io/canary_forwarder
-  pullPolicy: Always
-  # -- Overrides the image tag whose default is the chart appVersion.
+  # -- The policy for fetching images from the repository at runtime.
+  pullPolicy: IfNotPresent
+  # -- Required. Tag of the image to deploy.
   tag:
 
 # -- Secret that stores credentials that are used for accessing the container registry
-imagePullSecrets:
-  - artifactory-pull-secret
+imagePullSecrets: []
+  # - name: pullSecret
 
+# -- String to partially override linux-edr-sensor.fullname template (will maintain the release name)
 nameOverride: ""
+# -- String to fully override linux-edr-sensor.fullname template
 fullnameOverride: ""
 
+# -- Additional annotations for the deployed pod(s).
 podAnnotations: {}
+# -- Additional labels to add to all the resources created by this chart.
+labels: {}
 
+# -- Pod security context. Note: the container must be privileged. Linux EDR requires access to proc filesystem elements that, in the Docker security model, can not be granted to an unprivileged container via capabilities.
 securityContext:
   privileged: true
 
+# -- Sets the allocated CPU and memory specifications for the pod(s).
 resources: {}
   # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
+  #   cpu: 250m
+  #   memory: 512Mi
   # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  #   cpu: 125m
+  #   memory: 256Mi
 
+# -- Tolerations allow the pod to be scheduled onto nodes with specific taints.
+# Examples can be uncommented if needed for well-known control-plane taints.
 tolerations:
-  - key: node-role.kubernetes.io/master
-    operator: Exists
-    effect: NoSchedule
+  # - key: node-role.kubernetes.io/control-plane
+  #   operator: Exists
+  #   effect: NoSchedule
+  # - key: node-role.kubernetes.io/master
+  #   operator: Exists
+  #   effect: NoSchedule
+
+persistence:
+  # -- Whether or not persistent storage should be used for the sensor's /tmp and /logs data.
+  enabled: true
+  # -- Type of persistent storage to use. Options are 'hostpath' or 'pvc'.
+  # Use hostpath when using the node's storage, and pvc when using a storage class.
+  type: hostpath
+  # -- The path on the host to use for persistent tmp storage. Only used when type is set to 'hostpath'.
+  tmpDir: /tmp
+  # -- The path on the host to use for persistent log storage. Only used when type is set to 'hostpath'.
+  logDir: /var/log
+  # -- The name of the storage class to use when using a pvc. If not provided, the default storage class will be used.
+  storageClass:
+  # -- The access mode for the persistent volumes.
+  # When using a daemonset, the access mode will likely be 'ReadWriteMany'.
+  # Note that not all storage classes support all access modes.
+  # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
+  accessModes:
+    - ReadWriteMany
+  # -- The size of the persistent volume for tmp data.
+  tmpVolumeSize: 512m
+  # -- The size of the persistent volume for log data.
+  logVolumeSize: 512m
 
 # -- Values used for the default configuration. These will not be used if overrideConfig is set to true.
-defaultConfig:
+config:
   # -- Required. Parameter for configuring access token.
   accessToken:
   # -- Required. Parameter for configuring Outpost auth.
   outpostAuthToken:
   # -- Optional. Only required for endpoints where we wish to use the eBPF telemetry collection method.
-  telemetrySource: # ebpf
+  telemetrySource: ebpf  # Valid options are audit, ebpf, or subdomain
   # -- Optional. This becomes the value of the "endpoint_reporting_tags" field included in the envelope fields of all telemetry/health files that are offloaded.
   reportingTags:
     # Color: green
     # Shape: square
-
-# -- Set this to true when providing a custom configuration. This will prevent the default configuration from being applied.
-overrideConfig: false
-# -- Custom configuration to be passed to the Red Canary Linux EDR Sensor. Only to be used when instructed by Red Canary.
-customConfig:
-# json example
-  # {"access_token":"myAccessToken","subscription_plan":"Managed","offload_target":"Outpost","outpost_auth_token":"myOutpostToken","telemetry":{"source":"ebpf"}}
-# yaml example
-  # access_token: myAccessToken
-  # subscription_plan: Managed
-  # offload_target: Outpost
-  # outpost_auth_token: myOutpostToken
-  # telemetry:
-  #   source: ebpf
+  # -- Additional configuration options to be passed to the Red Canary Linux EDR Sensor. Please only use when troubleshooting with Red Canary.
+  extraOptions:

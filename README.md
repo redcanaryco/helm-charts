@@ -1,5 +1,7 @@
 # Red Canary Kubernetes Helm Charts
 
+![GitHub Action Status](https://github.com/redcanaryco/helm-charts/actions/workflows/release.yml/badge.svg?branch=main) ![GitHub Action Status](https://github.com/redcanaryco/helm-charts/actions/workflows/lint-test.yaml/badge.svg?branch=main)
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.
@@ -13,7 +15,9 @@ helm repo add redcanary https://redcanaryco.github.io/helm-charts
 
 You can then run `helm search repo redcanary` to see the charts.
 
+## Contributing
+You're welcome to contribute to our projects! Please refer to our [contribution guidelines](https://github.com/redcanaryco/helm-charts/blob/main/CONTRIBUTING.md) for details.
+
 ## License
 
-<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
-[BSD 3-Clause License](https://github.com/redcanaryco/helm-charts/blob/main/LICENSE).
+[TBD](https://github.com/redcanaryco/helm-charts/blob/main/LICENSE).

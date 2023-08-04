@@ -49,3 +49,23 @@ Selector labels
 app.kubernetes.io/name: {{ include "linux-edr-sensor.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Sensor Config
+*/}}
+{{- define "linux-edr-sensor.config" -}}
+access_token: {{ required "A valid access token is required." .Values.config.accessToken }}
+offload_target: Outpost
+outpost_auth_token: {{ required "A valid Outpost auth token is required." .Values.config.outpostAuthToken }}
+{{- with .Values.config.extraOptions }}
+{{ . | toYaml }}
+{{- end }}
+{{- with .Values.config.telemetrySource }}
+telemetry:
+  source: {{ . }}
+{{- end }}
+{{- with .Values.config.reportingTags }}
+reporting_tags:
+{{- . | toYaml | nindent 2 }}
+{{- end }}
+{{- end }}

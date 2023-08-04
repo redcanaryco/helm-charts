@@ -21,3 +21,5 @@
 .idea/
 *.tmproj
 .vscode/
+# Files used for CI/testing
+ci/

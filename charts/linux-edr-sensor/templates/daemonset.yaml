@@ -33,7 +33,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - image: "{{ .Values.image.repository }}:{{ required "You must specify the image tag to be used." .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
           securityContext:
@@ -60,9 +60,27 @@ spec:
           hostPath:
             path: /var/lib/misc
         - name: tmp
+          {{- if and .Values.persistence.enabled (eq .Values.persistence.type "pvc") }}
+          persistentVolumeClaim:
+            claimName: {{ include "linux-edr-sensor.fullname" . }}-tmp
+          {{- else if and .Values.persistence.enabled (eq .Values.persistence.type "hostpath") }}
+          hostPath:
+            path: {{ .Values.persistence.tmpDir }}
+            type: Directory
+          {{- else }}
           emptyDir: {}
+          {{ end }}
         - name: log
+          {{- if and .Values.persistence.enabled (eq .Values.persistence.type "pvc") }}
+          persistentVolumeClaim:
+            claimName: {{ include "linux-edr-sensor.fullname" . }}-log
+          {{- else if and .Values.persistence.enabled (eq .Values.persistence.type "hostpath") }}
+          hostPath:
+            path: {{ .Values.persistence.logDir }}
+            type: Directory
+          {{- else }}
           emptyDir: {}
+          {{ end }}
         - name: hostfs
           hostPath:
             path: /
