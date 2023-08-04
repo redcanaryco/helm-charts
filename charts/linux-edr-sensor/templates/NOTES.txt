@@ -1,0 +1,8 @@
+Thank you for installing Red Canary's {{ .Chart.Name }} helm chart.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}

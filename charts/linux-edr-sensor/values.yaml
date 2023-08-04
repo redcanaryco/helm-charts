@@ -1,0 +1,63 @@
+# Default values for Linux EDR sensor.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # -- The image repository to pull from<br>
+  # <REPLACE_WITH_YOUR_REGISTRY>/canary_forwarder
+  repository: redcanary-forwarder-docker-prod-local.jfrog.io/canary_forwarder
+  pullPolicy: Always
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag:
+
+# -- Secret that stores credentials that are used for accessing the container registry
+imagePullSecrets:
+  - artifactory-pull-secret
+
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+securityContext:
+  privileged: true
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+tolerations:
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+
+# -- Values used for the default configuration. These will not be used if overrideConfig is set to true.
+defaultConfig:
+  # -- Required. Parameter for configuring access token.
+  accessToken:
+  # -- Required. Parameter for configuring Outpost auth.
+  outpostAuthToken:
+  # -- Optional. Only required for endpoints where we wish to use the eBPF telemetry collection method.
+  telemetrySource: # ebpf
+  # -- Optional. This becomes the value of the "endpoint_reporting_tags" field included in the envelope fields of all telemetry/health files that are offloaded.
+  reportingTags:
+    # Color: green
+    # Shape: square
+
+# -- Set this to true when providing a custom configuration. This will prevent the default configuration from being applied.
+overrideConfig: false
+# -- Custom configuration to be passed to the Red Canary Linux EDR Sensor. Only to be used when instructed by Red Canary.
+customConfig:
+# json example
+  # {"access_token":"myAccessToken","subscription_plan":"Managed","offload_target":"Outpost","outpost_auth_token":"myOutpostToken","telemetry":{"source":"ebpf"}}
+# yaml example
+  # access_token: myAccessToken
+  # subscription_plan: Managed
+  # offload_target: Outpost
+  # outpost_auth_token: myOutpostToken
+  # telemetry:
+  #   source: ebpf

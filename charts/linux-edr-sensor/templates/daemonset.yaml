@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "linux-edr-sensor.fullname" . }}
+  labels:
+    {{- include "linux-edr-sensor.labels" . | nindent 4 }}
+    {{- with .Values.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "linux-edr-sensor.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "linux-edr-sensor.fullname" . }}
+        {{- include "linux-edr-sensor.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      hostNetwork: true
+      hostPID: true
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          command: ["/opt/redcanary/cfsvcd"]
+          volumeMounts:
+            - name: groupconfig
+              mountPath: /opt/redcanary/etc
+            - name: nodestate
+              mountPath: /opt/redcanary/var
+            - name: tmp
+              mountPath: /opt/redcanary/tmp
+            - name: log
+              mountPath: /opt/redcanary/log
+            - name: hostfs
+              mountPath: /opt/redcanary/hostfs
+      volumes:
+        - name: groupconfig
+          secret:
+            secretName: {{ include "linux-edr-sensor.fullname" . }}
+        - name: nodestate
+          hostPath:
+            path: /var/lib/misc
+        - name: tmp
+          emptyDir: {}
+        - name: log
+          emptyDir: {}
+        - name: hostfs
+          hostPath:
+            path: /
