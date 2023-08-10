@@ -56,6 +56,7 @@ Sensor Config
 {{- define "linux-edr-sensor.config" -}}
 access_token: {{ required "A valid access token is required." .Values.config.accessToken }}
 offload_target: Outpost
+subscription_plan: Managed
 outpost_auth_token: {{ required "A valid Outpost auth token is required." .Values.config.outpostAuthToken }}
 {{- with .Values.config.extraOptions }}
 {{ . | toYaml }}
