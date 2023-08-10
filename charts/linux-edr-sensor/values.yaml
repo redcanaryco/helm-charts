@@ -25,10 +25,6 @@ podAnnotations: {}
 # -- Additional labels to add to all the resources created by this chart.
 labels: {}
 
-# -- Pod security context. Note: the container must be privileged. Linux EDR requires access to proc filesystem elements that, in the Docker security model, can not be granted to an unprivileged container via capabilities.
-securityContext:
-  privileged: true
-
 # -- Sets the allocated CPU and memory specifications for the pod(s).
 resources: {}
   # limits:
@@ -51,25 +47,10 @@ tolerations:
 persistence:
   # -- Whether or not persistent storage should be used for the sensor's /tmp and /logs data.
   enabled: true
-  # -- Type of persistent storage to use. Options are 'hostpath' or 'pvc'.
-  # Use hostpath when using the node's storage, and pvc when using a storage class.
-  type: hostpath
   # -- The path on the host to use for persistent tmp storage. Only used when type is set to 'hostpath'.
   tmpDir: /tmp
   # -- The path on the host to use for persistent log storage. Only used when type is set to 'hostpath'.
   logDir: /var/log
-  # -- The name of the storage class to use when using a pvc. If not provided, the default storage class will be used.
-  storageClass:
-  # -- The access mode for the persistent volumes.
-  # When using a daemonset, the access mode will likely be 'ReadWriteMany'.
-  # Note that not all storage classes support all access modes.
-  # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
-  accessModes:
-    - ReadWriteMany
-  # -- The size of the persistent volume for tmp data.
-  tmpVolumeSize: 512m
-  # -- The size of the persistent volume for log data.
-  logVolumeSize: 512m
 
 # -- Values used for the default configuration. These will not be used if overrideConfig is set to true.
 config:

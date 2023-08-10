@@ -37,7 +37,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            privileged: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           command: ["/opt/redcanary/cfsvcd"]
@@ -60,24 +60,18 @@ spec:
           hostPath:
             path: /var/lib/misc
         - name: tmp
-          {{- if and .Values.persistence.enabled (eq .Values.persistence.type "pvc") }}
-          persistentVolumeClaim:
-            claimName: {{ include "linux-edr-sensor.fullname" . }}-tmp
-          {{- else if and .Values.persistence.enabled (eq .Values.persistence.type "hostpath") }}
+          {{- if .Values.persistence.enabled }}
           hostPath:
             path: {{ .Values.persistence.tmpDir }}
-            type: Directory
+            type: DirectoryOrCreate
           {{- else }}
           emptyDir: {}
           {{ end }}
         - name: log
-          {{- if and .Values.persistence.enabled (eq .Values.persistence.type "pvc") }}
-          persistentVolumeClaim:
-            claimName: {{ include "linux-edr-sensor.fullname" . }}-log
-          {{- else if and .Values.persistence.enabled (eq .Values.persistence.type "hostpath") }}
+          {{- if .Values.persistence.enabled }}
           hostPath:
             path: {{ .Values.persistence.logDir }}
-            type: Directory
+            type: DirectoryOrCreate
           {{- else }}
           emptyDir: {}
           {{ end }}

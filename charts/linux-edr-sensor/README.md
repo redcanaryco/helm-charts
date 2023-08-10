@@ -45,17 +45,11 @@ helm uninstall linux-edr-sensor
 | imagePullSecrets | list | `[]` | Secret that stores credentials that are used for accessing the container registry |
 | labels | object | `{}` | Additional labels to add to all the resources created by this chart. |
 | nameOverride | string | `""` | String to partially override linux-edr-sensor.fullname template (will maintain the release name) |
-| persistence.accessModes | list | `["ReadWriteMany"]` | The access mode for the persistent volumes. When using a daemonset, the access mode will likely be 'ReadWriteMany'. Note that not all storage classes support all access modes. https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes |
 | persistence.enabled | bool | `true` | Whether or not persistent storage should be used for the sensor's /tmp and /logs data. |
 | persistence.logDir | string | `"/var/log"` | The path on the host to use for persistent log storage. Only used when type is set to 'hostpath'. |
-| persistence.logVolumeSize | string | `"512m"` | The size of the persistent volume for log data. |
-| persistence.storageClass | string | `nil` | The name of the storage class to use when using a pvc. If not provided, the default storage class will be used. |
 | persistence.tmpDir | string | `"/tmp"` | The path on the host to use for persistent tmp storage. Only used when type is set to 'hostpath'. |
-| persistence.tmpVolumeSize | string | `"512m"` | The size of the persistent volume for tmp data. |
-| persistence.type | string | `"hostpath"` | Type of persistent storage to use. Options are 'hostpath' or 'pvc'. Use hostpath when using the node's storage, and pvc when using a storage class. |
 | podAnnotations | object | `{}` | Additional annotations for the deployed pod(s). |
 | resources | object | `{}` | Sets the allocated CPU and memory specifications for the pod(s). |
-| securityContext | object | `{"privileged":true}` | Pod security context. Note: the container must be privileged. Linux EDR requires access to proc filesystem elements that, in the Docker security model, can not be granted to an unprivileged container via capabilities. |
 | tolerations | string | `nil` | Tolerations allow the pod to be scheduled onto nodes with specific taints. Examples can be uncommented if needed for well-known control-plane taints. |
 
 ----------------------------------------------
