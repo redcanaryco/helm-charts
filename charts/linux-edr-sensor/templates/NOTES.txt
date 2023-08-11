@@ -6,3 +6,5 @@ To learn more about the release, try:
 
   $ helm status {{ .Release.Name }}
   $ helm get all {{ .Release.Name }}
+
+For additional resources, please visit https://help.redcanary.com/hc/en-us/sections/5528683533335-Linux-EDR

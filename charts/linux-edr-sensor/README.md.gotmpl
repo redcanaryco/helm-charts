@@ -2,31 +2,134 @@
 
 {{ template "chart.description" . }}
 
-This chart will not install without certain values being set. Please refer to [Installation](#installation) for details.
-
 Our unique lightweight agent was designed to silently collect telemetry data while minimizing any possible performance impact. Red Canary [Linux EDR](https://redcanary.com/products/linux-edr/) and MDR extends Managed Detection and Response to your entire on-prem and cloud Linux infrastructure with deep Linux threat detection expertise and experience.
+
+## Supported Linux architectures:
+* x86_64
+* AArch64
+
+## Supported Linux server distributions and versions:
+* Amazon Linux 1 & 2
+* Ubuntu 14.04, 16.04, 18.04, 20.04
+* CentOS 6, 7, 8
+* RHEL 6, 7, 8
+* Debian 8, 9, 10
+* Fedora 31, 32
+* SUSE/openSUSE 11
+* Oracle Linux 7, 8 (RHEL & UEK kernels)
+
+## Supported Linux kernel versions:
+* 2.6.32-71 and above (mainline)
+
+## Support and installation notes
+* We do not support systems running auditd
+* We do not support systems running software that consume from the audit netlink socket
+* Installation will disable the auditd.service and, if it exists, the systemd-journald-audit.socket. It will not change any configuration files for auditd. The previous system state will be restored if you choose to uninstall
+
+## Compatibility with Kubernetes
+The {{ template "chart.name" . }} chart has undergone testing for deployment on these Kubernetes distributions:
+* Rancher k3s & k3d
+
+## Chart compatability with sensor versions
+|  Chart Version  |  Sensor Version  |
+|:---------------:|:----------------:|
+| = 0.1.0         | = 1.5.x          |
+
+## Prerequisites
+* Helm v3.0.0+
+* The canary-forwarder image, tagged and pushed to your private registry
+* Credentials for accessing your private registry
+* Outbound network connectivity
+
+### Accessing the canary-forwarder image
+[Where Do I Get the Linux EDR Docker Container Image?](https://help.redcanary.com/hc/en-us/articles/1500007392202-Where-Do-I-Get-the-CWP-Docker-Container-Image-)
+
+### Outbound network connectivity
+* s3-us-east-2.amazonaws.com (tcp/443) 
+* 35.188.42.15 (tcp/443) 
+* 34.120.195.249 (tcp/443) 
+* https://cwp-ingest.redcanary.io 
+
+To utilize a HTTP proxy, set the following value during your installation:
+```console
+--set config.extraOptions.http_proxy="https://HOST:PORT"
+```
 
 ## Installation
 
-To install this helm chart, simply add the redcanary helm repo and install the chart with the required values provided by Red Canary. Note that we do not set a default version for the image tag, leaving this as a concious decision for the user.
+### Create a namespace for your installation
+Creating a dedicated namespace for a specific deployment within Kubernetes is considered a best practice due to its distinct advantages in terms of organization, resource management, and security. This approach prevents potential naming conflicts, enhances resource allocation, and enables more precise access controls, contributing to a streamlined and secure operational environment.
 
 ```console
+kubectl create namespace <NAMESPACE_NAME>
+```
+
+### Configure Pod Security Standards with Namespace labels
+[Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/) became generally available in Kubernetes v1.25 onwards. [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/) define policies used to secure namespaces and can be configured by [adding labels](https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/) to your namespaces.
+
+```console
+kubectl label --overwrite ns <NAMESPACE_NAME> pod-security.kubernetes.io/enforce=privileged
+```
+
+### Create a secret to hold your private registry credentials
+The image pull secret is used to securely authenticate and authorize container image pulls from your private container registry. *This may not be required in all environments*
+
+```console
+kubectl create secret docker-registry <SECRET_NAME> \
+  --docker-server=<YOUR_REGISTRY_SERVER> \
+  --docker-username=<YOUR_USERNAME> \
+  --docker-password=<YOUR_PASSWORD> \
+  --docker-email=<YOUR_EMAIL> \
+  --namespace=<NAMESPACE_FROM_ABOVE>
+  ```
+
+### Add the Red Canary Helm repository to your system
+```console
 helm repo add redcanary https://redcanaryco.github.io/helm-charts
+helm repo update redcanary
+```
+
+### Install the Helm chart
+```console
 helm install linux-edr-sensor redcanary/linux-edr-sensor \
+--namespace=<NAMESPACE_FROM_ABOVE> \
 --set config.accessToken=<YOUR_ACCESS_TOKEN> \
 --set config.outpostAuthToken=<YOUR_OUTPOST_TOKEN> \
---set image.tag=<DESIRED TAG>
+--set image.repository=<YOUR_REGISTRY_SERVER> \
+--set image.tag=<DESIRED TAG> \
+--set imagePullSecrets[0].name=<SECRET_NAME_FROM_ABOVE>  # Omit if not using an image pull secret
+```
+
+## Helpful commands for interacting with your pods
+To see the names of your running pods:
+```console
+kubectl get pods -n <NAMESPACE_FROM_ABOVE>
+```
+
+Once you have the names of your pods, you can tail their logs:
+```console
+kubectl logs -f <POD_NAME> -n <NAMESPACE_FROM_ABOVE>
+```
+
+Or use an interactive shell to access the running pod
+```console
+kubectl exec --stdin --tty <POD_NAME> -n <NAMESPACE_FROM_ABOVE> -- /bin/sh
 ```
 
 ## Removal
+
+### Remove the linux-edr-sensor release from your kubernetes cluster
 
 ```console
 helm uninstall linux-edr-sensor
 ```
 
-## Prerequisites
+Uninstalling the helm chart will not remove the namespace or image pull secret. This will clean up the remaining kubernetes resources.
 
-* Helm v3.0.0+
+```console
+kubectl delete ns <YOUR_NAMESPACE>
+```
+
 
 {{ template "chart.valuesSection" . }}
 
