@@ -60,5 +60,5 @@ Charts should be introduced at `0.1.0` and all changes must be documented in the
 The readme of each chart can be re-generated with the following command (run inside the chart directory):
 
 ```shell
-docker run --rm --volume "$(pwd):/helm-docs" -u "$(id -u)" jnorwood/helm-docs:v1.8.1
+docker run --rm --volume "$(pwd):/helm-docs" -u "$(id -u)" jnorwood/helm-docs:v1.11.0
 ```
