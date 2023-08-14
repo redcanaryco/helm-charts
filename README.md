@@ -1,6 +1,6 @@
 # Red Canary Kubernetes Helm Charts
 
-![GitHub Action Status](https://github.com/redcanaryco/helm-charts/actions/workflows/release.yml/badge.svg?branch=main) ![GitHub Action Status](https://github.com/redcanaryco/helm-charts/actions/workflows/lint-test.yaml/badge.svg?branch=main)
+![GitHub Action Status](https://github.com/redcanaryco/helm-charts/actions/workflows/release.yaml/badge.svg?branch=main) ![GitHub Action Status](https://github.com/redcanaryco/helm-charts/actions/workflows/lint-test.yaml/badge.svg?branch=main)
 
 ## Usage
 
