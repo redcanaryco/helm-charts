@@ -4,22 +4,8 @@ A Helm chart for deploying the Red Canary Linux EDR Sensor to Kubernetes
 
 Our unique lightweight agent was designed to silently collect telemetry data while minimizing any possible performance impact. Red Canary [Linux EDR](https://redcanary.com/products/linux-edr/) and MDR extends Managed Detection and Response to your entire on-prem and cloud Linux infrastructure with deep Linux threat detection expertise and experience.
 
-## Supported Linux architectures:
-* x86_64
-* AArch64
-
-## Supported Linux server distributions and versions:
-* Amazon Linux 1 & 2
-* Ubuntu 14.04, 16.04, 18.04, 20.04
-* CentOS 6, 7, 8
-* RHEL 6, 7, 8
-* Debian 8, 9, 10
-* Fedora 31, 32
-* SUSE/openSUSE 11
-* Oracle Linux 7, 8 (RHEL & UEK kernels)
-
-## Supported Linux kernel versions:
-* 2.6.32-71 and above (mainline)
+## System requirements for the Linux EDR sensor
+For the most up to date requirements, please visit [help.redcanary.com](https://help.redcanary.com/hc/en-us/articles/360052515594-System-requirements-for-Linux-EDR).
 
 ## Support and installation notes
 * We do not support systems running auditd
