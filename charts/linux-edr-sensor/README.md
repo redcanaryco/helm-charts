@@ -7,11 +7,6 @@ Our unique lightweight agent was designed to silently collect telemetry data whi
 ## System requirements for the Linux EDR sensor
 For the most up to date requirements, please visit [help.redcanary.com](https://help.redcanary.com/hc/en-us/articles/360052515594-System-requirements-for-Linux-EDR).
 
-## Support and installation notes
-* We do not support systems running auditd
-* We do not support systems running software that consume from the audit netlink socket
-* Installation will disable the auditd.service and, if it exists, the systemd-journald-audit.socket. It will not change any configuration files for auditd. The previous system state will be restored if you choose to uninstall
-
 ## Compatibility with Kubernetes
 The linux-edr-sensor chart has undergone testing for deployment on these Kubernetes distributions:
 * Rancher k3s & k3d
@@ -51,7 +46,7 @@ kubectl create namespace <NAMESPACE_NAME>
 ```
 
 ### Configure Pod Security Standards with Namespace labels
-[Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/) became generally available in Kubernetes v1.25 onwards. [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/) define policies used to secure namespaces and can be configured by [adding labels](https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/) to your namespaces.
+[Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/) became generally available in Kubernetes v1.25 onwards. [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/) define policies used to secure pods and can be configured by [adding labels](https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/) to your namespaces.
 
 ```console
 kubectl label --overwrite ns <NAMESPACE_NAME> pod-security.kubernetes.io/enforce=privileged
