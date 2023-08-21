@@ -10,7 +10,7 @@ type: application
 version: 0.1.0
 
 # This is the version number of the sensor being deployed by the chart.
-appVersion: "1.5.2-20275"
+appVersion: "1.5.3-20309"
 
 keywords:
   - redcanary

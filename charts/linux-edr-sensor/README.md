@@ -26,6 +26,8 @@ The linux-edr-sensor chart has undergone testing for deployment on these Kuberne
 * 34.120.195.249 (tcp/443)
 * https://cwp-ingest.redcanary.io
 
+Note: cwp-ingest.redcanary.io IPs are static.
+
 To utilize a HTTP proxy, set the following value during your installation:
 ```console
 --set config.extraOptions.http_proxy="https://HOST:PORT"
@@ -66,6 +68,7 @@ helm repo update redcanary
 ```
 
 ### Viewing available chart and sensor versions
+Use the following command to determine which chart version you need to install based on the desired sensor version.
 ```console
 helm search repo redcanary/linux-edr-sensor --versions
 ```
@@ -73,6 +76,7 @@ helm search repo redcanary/linux-edr-sensor --versions
 ### Install the Helm chart
 ```console
 helm install linux-edr-sensor redcanary/linux-edr-sensor \
+--version <VERSION_FROM_ABOVE> \
 --namespace=<NAMESPACE_FROM_ABOVE> \
 --set config.accessToken=<YOUR_ACCESS_TOKEN> \
 --set config.outpostAuthToken=<YOUR_OUTPOST_TOKEN> \

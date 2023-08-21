@@ -58,7 +58,8 @@ spec:
             secretName: {{ include "linux-edr-sensor.fullname" . }}
         - name: nodestate
           hostPath:
-            path: /var/lib/misc
+            path: /var/lib/misc/redcanary
+            type: DirectoryOrCreate
         - name: tmp
           {{- if .Values.persistence.enabled }}
           hostPath:
