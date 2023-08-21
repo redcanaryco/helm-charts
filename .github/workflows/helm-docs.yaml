@@ -1,0 +1,37 @@
+name: Validate READMEs were updated with helm-docs
+
+on: pull_request
+
+jobs:
+  validate-readmes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install helm-docs
+        run: |
+          wget https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_x86_64.tar.gz
+          tar -xzvf helm-docs_1.11.0_Linux_x86_64.tar.gz
+          rm helm-docs_1.11.0_Linux_x86_64.tar.gz
+          chmod +x helm-docs
+          mv helm-docs /usr/local/bin/
+
+      - name: Check for necessary README updates
+        id: check
+        run: |
+          helm-docs charts
+          # somehow, the first "git diff" finds the README files deleted, but subsequent calls get it right
+          git diff --raw &>/dev/null
+          git diff-index --exit-code HEAD -- charts/
+
+      - name: Print Failure Message
+        if: ${{ failure() && steps.check.conclusion == 'failure' }}
+        run: |
+          echo "You forgot to update a README using 'helm-docs' before committing!"
