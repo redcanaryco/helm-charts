@@ -20,4 +20,4 @@ You're welcome to contribute to our projects! Please refer to our [contribution 
 
 ## License
 
-[TBD](https://github.com/redcanaryco/helm-charts/blob/main/LICENSE).
+[BSD-3-Clause License](https://github.com/redcanaryco/helm-charts/blob/main/LICENSE).
