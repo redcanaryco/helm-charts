@@ -9,6 +9,9 @@ type: application
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 version: 0.1.0
 
+# This is the version number of the sensor being deployed by the chart.
+appVersion: "1.5.2-20275"
+
 keywords:
   - redcanary
   - linux

@@ -11,11 +11,6 @@ For the most up to date requirements, please visit [help.redcanary.com](https://
 The linux-edr-sensor chart has undergone testing for deployment on these Kubernetes distributions:
 * Rancher k3s & k3d
 
-## Chart compatability with sensor versions
-|  Chart Version  |  Sensor Version  |
-|:---------------:|:----------------:|
-| = 0.1.0         | = 1.5.x          |
-
 ## Prerequisites
 * Helm v3.0.0+
 * The canary-forwarder image, tagged and pushed to your private registry
@@ -68,6 +63,11 @@ kubectl create secret docker-registry <SECRET_NAME> \
 ```console
 helm repo add redcanary https://redcanaryco.github.io/helm-charts
 helm repo update redcanary
+```
+
+### Viewing available chart and sensor versions
+```console
+helm search repo redcanary/linux-edr-sensor --versions
 ```
 
 ### Install the Helm chart
@@ -124,7 +124,7 @@ kubectl delete ns <YOUR_NAMESPACE>
 | fullnameOverride | string | `""` | String to fully override linux-edr-sensor.fullname template |
 | image.pullPolicy | string | `"IfNotPresent"` | The policy for fetching images from the repository at runtime. |
 | image.repository | string | `"redcanary-forwarder-docker-prod-local.jfrog.io/canary_forwarder"` | The image repository to pull from<br> <REPLACE_WITH_YOUR_REGISTRY>/canary_forwarder |
-| image.tag | string | `nil` | Required. Tag of the image to deploy. |
+| image.tag | string | `nil` | Tag of the image to deploy. Defaults to the app version of the chart. |
 | imagePullSecrets | list | `[]` | Secret that stores credentials that are used for accessing the container registry |
 | labels | object | `{}` | Additional labels to add to all the resources created by this chart. |
 | nameOverride | string | `""` | String to partially override linux-edr-sensor.fullname template (will maintain the release name) |

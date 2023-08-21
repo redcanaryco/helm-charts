@@ -8,7 +8,7 @@ image:
   repository: redcanary-forwarder-docker-prod-local.jfrog.io/canary_forwarder
   # -- The policy for fetching images from the repository at runtime.
   pullPolicy: IfNotPresent
-  # -- Required. Tag of the image to deploy.
+  # -- Tag of the image to deploy. Defaults to the app version of the chart.
   tag:
 
 # -- Secret that stores credentials that are used for accessing the container registry
