@@ -25,6 +25,7 @@ For the most up to date requirements, please visit [help.redcanary.com](https://
 The linux-edr-sensor chart has undergone testing for deployment on these Kubernetes distributions:
 * Rancher k3s & k3d
 * Amazon EKS
+* Azure AKS
 
 ## Multi-architecture kubernetes clusters
 The current state of the Canary Forwarder Docker image does not support multi-architecture builds. In the context of a multi-architecture Kubernetes cluster (including both arm64 and amd64 nodes), deploying two daemonsets becomes necessary. Each daemonset should reference the respective image and incorporate the required affinities to accommodate this architecture diversity.
