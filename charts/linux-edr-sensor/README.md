@@ -2,7 +2,7 @@
 
 A Helm chart for deploying the Red Canary Linux EDR Sensor to Kubernetes
 
-<table><td><h3>Disclaimer: Pre-release Helm Chart</h1>
+<table><td><h3>Disclaimer: Pre-release Helm Chart</h3>
 
 Please be advised that the Helm chart provided here is currently in a pre-release state and has not yet reached general availability (GA). While we have taken great care to ensure its functionality and reliability, it may still undergo changes and improvements before the final GA version is released.
 
