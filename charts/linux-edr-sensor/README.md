@@ -2,6 +2,20 @@
 
 A Helm chart for deploying the Red Canary Linux EDR Sensor to Kubernetes
 
+<table><td><h3>Disclaimer: Pre-release Helm Chart</h3>
+
+Please be advised that the Helm chart provided here is currently in a pre-release state and has not yet reached general availability (GA). While we have taken great care to ensure its functionality and reliability, it may still undergo changes and improvements before the final GA version is released.
+
+We encourage you to use this pre-release version for testing and evaluation purposes. However, it is not recommended for production environments or critical workloads at this stage. Keep in mind that features, configuration options, and other aspects of the chart may evolve before the GA release.
+
+Your feedback and insights are invaluable to us as we work towards refining and enhancing the Helm chart. Feel free to report any issues, suggestions, or observations you encounter during your testing. We greatly appreciate your understanding and support as we strive to deliver a robust and feature-rich chart for your use.
+
+Thank you for your interest in our project and for participating in its development journey.
+
+Sincerely,<br>
+The Red Canary Team
+</td></table><br>
+
 Our unique lightweight agent was designed to silently collect telemetry data while minimizing any possible performance impact. Red Canary [Linux EDR](https://redcanary.com/products/linux-edr/) and MDR extends Managed Detection and Response to your entire on-prem and cloud Linux infrastructure with deep Linux threat detection expertise and experience.
 
 ## System requirements for the Linux EDR sensor
@@ -10,6 +24,11 @@ For the most up to date requirements, please visit [help.redcanary.com](https://
 ## Compatibility with Kubernetes
 The linux-edr-sensor chart has undergone testing for deployment on these Kubernetes distributions:
 * Rancher k3s & k3d
+* Amazon EKS
+* Azure AKS
+
+## Multi-architecture kubernetes clusters
+The current state of the Canary Forwarder Docker image does not support multi-architecture builds. In the context of a multi-architecture Kubernetes cluster (including both arm64 and amd64 nodes), deploying two daemonsets becomes necessary. Each daemonset should reference the respective image and incorporate the required affinities to accommodate this architecture diversity.
 
 ## Prerequisites
 * Helm v3.0.0+
@@ -119,6 +138,7 @@ kubectl delete ns <YOUR_NAMESPACE>
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| affinity | object | `{}` | Use this to define a custom affinity section, using standard k8s syntax. |
 | config | object | `{"accessToken":null,"extraOptions":null,"outpostAuthToken":null,"reportingTags":null,"telemetrySource":"ebpf"}` | Values used for the default configuration. These will not be used if overrideConfig is set to true. |
 | config.accessToken | string | `nil` | Required. Parameter for configuring access token. |
 | config.extraOptions | string | `nil` | Additional configuration options to be passed to the Red Canary Linux EDR Sensor. Please only use when troubleshooting with Red Canary. |
@@ -132,12 +152,13 @@ kubectl delete ns <YOUR_NAMESPACE>
 | imagePullSecrets | list | `[]` | Secret that stores credentials that are used for accessing the container registry |
 | labels | object | `{}` | Additional labels to add to all the resources created by this chart. |
 | nameOverride | string | `""` | String to partially override linux-edr-sensor.fullname template (will maintain the release name) |
+| nodeSelector | object | `{}` | When you specify a nodeSelector, the Kubernetes scheduler will only consider nodes that match the labels you have specified. nodeAffinity is preferred see k8s documentations for further detail - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ |
 | persistence.enabled | bool | `true` | Whether or not persistent storage should be used for the sensor's /tmp and /logs data. |
 | persistence.logDir | string | `"/var/log"` | The path on the host to use for persistent log storage. Only used when type is set to 'hostpath'. |
 | persistence.tmpDir | string | `"/tmp"` | The path on the host to use for persistent tmp storage. Only used when type is set to 'hostpath'. |
 | podAnnotations | object | `{}` | Additional annotations for the deployed pod(s). |
 | resources | object | `{}` | Sets the allocated CPU and memory specifications for the pod(s). |
-| tolerations | string | `nil` | Tolerations allow the pod to be scheduled onto nodes with specific taints. Examples can be uncommented if needed for well-known control-plane taints. |
+| tolerations | list | `[]` | Tolerations allow the pod to be scheduled onto nodes with specific taints. Examples can be used if needed to tolerate all taints, or for well-known control-plane taints. |
 
 ----------------------------------------------
 <br>

@@ -35,14 +35,31 @@ resources: {}
   #   memory: 256Mi
 
 # -- Tolerations allow the pod to be scheduled onto nodes with specific taints.
-# Examples can be uncommented if needed for well-known control-plane taints.
-tolerations:
+# Examples can be used if needed to tolerate all taints, or for well-known control-plane taints.
+tolerations: []
+  # - key:
+  #   operator: Exists
   # - key: node-role.kubernetes.io/control-plane
   #   operator: Exists
   #   effect: NoSchedule
   # - key: node-role.kubernetes.io/master
   #   operator: Exists
   #   effect: NoSchedule
+
+# -- When you specify a nodeSelector, the Kubernetes scheduler will only consider nodes that match the labels you have specified. nodeAffinity is preferred see k8s documentations for further detail - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+nodeSelector: {}
+  # kubernetes.io/arch: amd64
+
+# -- Use this to define a custom affinity section, using standard k8s syntax.
+affinity: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #           - key: kubernetes.io/arch
+  #             operator: In
+  #             values:
+  #               - amd64
 
 persistence:
   # -- Whether or not persistent storage should be used for the sensor's /tmp and /logs data.
