@@ -2,6 +2,26 @@ apiVersion: v1
 entries:
   linux-edr-sensor:
   - apiVersion: v2
+    appVersion: 1.6.0-21823
+    created: "2023-11-14T15:45:54.614788082Z"
+    description: A Helm chart for deploying the Red Canary Linux EDR Sensor to Kubernetes
+    digest: 1804a30b3fac0edc21c3cd454987d8d17bef5a4d7e1b91dcddc0f525be8332e5
+    home: https://github.com/redcanaryco/helm-charts/tree/main/charts/linux-edr-sensor
+    icon: https://redcanary.com/wp-content/themes/redcanary/assets/img/apple-icon-152x152.png
+    keywords:
+    - redcanary
+    - linux
+    - edr
+    - sensor
+    maintainers:
+    - email: thomas.jordan@redcanary.com
+      name: Thomas Jordan
+    name: linux-edr-sensor
+    type: application
+    urls:
+    - https://github.com/redcanaryco/helm-charts/releases/download/linux-edr-sensor-0.1.3/linux-edr-sensor-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
     appVersion: 1.5.4-21043
     created: "2023-09-06T20:50:12.354425486Z"
     description: A Helm chart for deploying the Red Canary Linux EDR Sensor to Kubernetes
@@ -61,4 +81,4 @@ entries:
     urls:
     - https://github.com/redcanaryco/helm-charts/releases/download/linux-edr-sensor-0.1.0/linux-edr-sensor-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-06T20:50:12.354442887Z"
+generated: "2023-11-14T15:45:54.614809762Z"
