@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.5] - 2024-03-14
+- Updated README to remove pre-release disclaimer.
+
 ## [0.1.4] - 2024-02-12
 
 ### Changed
