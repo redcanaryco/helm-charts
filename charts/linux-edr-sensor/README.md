@@ -2,20 +2,6 @@
 
 A Helm chart for deploying the Red Canary Linux EDR Sensor to Kubernetes
 
-<table><td><h3>Disclaimer: Pre-release Helm Chart</h3>
-
-Please be advised that the Helm chart provided here is currently in a pre-release state and has not yet reached general availability (GA). While we have taken great care to ensure its functionality and reliability, it may still undergo changes and improvements before the final GA version is released.
-
-We encourage you to use this pre-release version for testing and evaluation purposes. However, it is not recommended for production environments or critical workloads at this stage. Keep in mind that features, configuration options, and other aspects of the chart may evolve before the GA release.
-
-Your feedback and insights are invaluable to us as we work towards refining and enhancing the Helm chart. Feel free to report any issues, suggestions, or observations you encounter during your testing. We greatly appreciate your understanding and support as we strive to deliver a robust and feature-rich chart for your use.
-
-Thank you for your interest in our project and for participating in its development journey.
-
-Sincerely,<br>
-The Red Canary Team
-</td></table><br>
-
 Our unique lightweight agent was designed to silently collect telemetry data while minimizing any possible performance impact. Red Canary [Linux EDR](https://redcanary.com/products/linux-edr/) and MDR extends Managed Detection and Response to your entire on-prem and cloud Linux infrastructure with deep Linux threat detection expertise and experience.
 
 ## System requirements for the Linux EDR sensor
