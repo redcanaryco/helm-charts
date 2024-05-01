@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.6] - 2024-05-01
+
+### Changed
+- Updated `appVersion` to the `1.8.0-23707` docker tag for the sensor image
+
 ## [0.1.5] - 2024-03-14
 - Updated README to remove pre-release disclaimer.
 
