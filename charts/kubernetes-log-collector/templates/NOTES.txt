@@ -1,0 +1,10 @@
+Thank you for installiing Red Canary's {{ .Chart.Name }} helm chart.
+
+Your release is named {{ .Release.Name }} and has been deployed to the {{ .Release.Namespace }} namespace.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }} -n {{ .Release.Namespace }}
+  $ helm get all {{ .Release.Name }} -n {{ .Release.Namespace }}
+
+For additional resources, please visit <<TODO>>
