@@ -1,3 +1,5 @@
+directories:
+  logs: /var/log
 config:
   service_id: test
   outpost_token: token
