@@ -1,0 +1,84 @@
+# Default values for kubernetes-log-collector
+# This is a YAML-formatted file
+# Declare variables to be passed into your templates
+
+image:
+  # -- repository is the image repository to pull from
+  # <REPLACE_WITH_YOUR_REGISTRY>/audit-log-forwarder-prod
+  repository: redcanary-audit-log-forwarder-prod.jfrog.io/audit-log-forwarder-prod
+  # -- (string) pullPolicy is the policy for fetching images from the repository at runtime
+  pullPolicy: IfNotPresent
+  # -- (string) tag of the image to deploy. Defaults to the app version of the chart
+  tag:
+
+# -- imagePullSecrets names Secrets that store credentials that are used for accessing the container registry
+imagePullSecrets: []
+  # - name: pullSecret
+
+# -- nameOverride is a string to partially override the kubernetes-log-collector.fullname template (will maintain the release name)
+nameOverride:
+# -- fullnameOverride is a string to fully override the kubernetes-log-collector.fullname template
+fullnameOverride:
+
+# -- podAnnotations provides extra annotations for the deployed pod(s)
+podAnnotations: {}
+# -- labels provides extra labels for all the resources created by this chart
+labels: {}
+
+# -- resources sets the CPU and memory specifications for the pod(s).
+resources: {}
+  # limits:
+  #   cpu: 1
+  #   memory: "80Mi"
+  # requests:
+  #   cpu: 300m
+  #   memory: "20Mi"
+
+# Control plane nodes, which are the ones we must run on, typically have a taint that must be tolerated.
+# The examples are typical taints used for control plane nodes; select one or both as appropriate for your cluster
+
+# -- tolerations allow the DaemonSet pods to run on nodes with specific control plane taints
+tolerations: []
+  # - key: node-role.kubernetes.io/control-plane
+  #   operator: Exists
+  #   effect: NoSchedule
+  # - key: node-role.kubernetes.io/master
+  #   operator: Exists
+  #   effect: NoSchedule
+
+# In addition to tolerating control plane nodes, we need to explicitly select them to run on (rather than worker nodes), which can be done via nodeSelector or affinity.
+
+# The nodeSelector example is the well-known label applied automatically by tools like kubeadm to control plane nodes
+
+# You may want to use affinity instead if the api server runs in a pod, but is not deployed on all control plane nodes. You could then use podAffinity to select nodes already running pods with the label `component=kube-apiserver`
+# Note that if you use podAffinity, the `namespaces` field is tricky because the scheduler distinguishes between `nil` (meaning "same namespace as this pod") and the empty list (meaning "all namespaces"). Make sure you choose appropriate namespaces and labels for your cluster.
+
+# -- nodeSelector selects nodes for the DaemonSet pods to run on by node label
+nodeSelector: {}
+  # node-role.kubernetes.io/control-plane: ""
+
+# -- affinity selects nodes for the DaemonSet pods to run on via an affinity specification
+affinity: {}
+
+# The directories below are used to define hostPath volumes, so they are relative to the node's root filesystem. The logs directory must be the same one where the kube-apiserver has been configured to write its api audit logs. The state directory should be unused by any other process or container; it contains checkpoint state for recovery across pod instantiations.
+
+directories:
+  # -- logs is the directory in the node's root filesystem where the audit log file can be found
+  logs: /var/log/kubernetes
+  # -- state is the directory in the node's root filesystem to store persistent checkpoint state
+  state: /run/kubernetes-log-collector
+
+config:
+  # -- service_id is the account identifier assigned when provisioning the service
+  service_id:
+  # -- outpost_token is the access token assigned when provisioning the service
+  outpost_token:
+  # -- offload_amount is the amount of log traffic, in bytes, that should ideally be sent per offload
+  offload_amount: 50000000
+  # -- offload_after is the amount of time, in seconds, to wait between offloads if the desired offload_amount has not yet accumulated
+  offload_after: 60
+  # -- http_proxy is the URL of a HTTP(s) proxy to use, if desired
+  http_proxy:
+  # -- log_file is the base file name the apiserver is configured to use for its audit log
+  log_file: audit.log
+
