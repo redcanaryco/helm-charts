@@ -49,7 +49,7 @@ spec:
             - name: OUTPOST_TOKEN
               value: {{ .Values.config.outpost_token }}
             - name: OUTPOST_HOST
-              value: https://cwp-ingest.readcanary.io/
+              value: https://cwp-ingest.redcanary.io/
             - name: LOG_FILE
               value: /logs/{{ .Values.config.log_file }}
             - name: STATE_DIRECTORY
