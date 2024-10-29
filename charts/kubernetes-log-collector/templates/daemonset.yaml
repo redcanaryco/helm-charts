@@ -60,11 +60,11 @@ spec:
             {{- end }}
             {{- with .Values.config.offload_amount }}
             - name: OFFLOAD_AMOUNT
-              value: {{ . }}
+              value: {{ quote . }}
             {{- end }}
             {{- with .Values.config.offload_after }}
             - name: OFFLOAD_AFTER
-              value: {{ . }}
+              value: {{ quote . }}
             {{- end }}
           securityContext:
             runAsUser: 0

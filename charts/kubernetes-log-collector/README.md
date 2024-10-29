@@ -151,8 +151,8 @@ kubectl delete ns <NAMESPACE_NAME>
 | affinity | object | `{}` | affinity selects nodes for the DaemonSet pods to run on via an affinity specification |
 | config.http_proxy | string | `nil` | http_proxy is the URL of a HTTP(s) proxy to use, if desired |
 | config.log_file | string | `"audit.log"` | log_file is the base file name the apiserver is configured to use for its audit log |
-| config.offload_after | int | `60` | offload_after is the amount of time, in seconds, to wait between offloads if the desired offload_amount has not yet accumulated |
-| config.offload_amount | int | `50000000` | offload_amount is the amount of log traffic, in bytes, that should ideally be sent per offload |
+| config.offload_after | string | `"60"` | offload_after is the amount of time, in seconds, to wait between offloads if the desired offload_amount has not yet accumulated |
+| config.offload_amount | string | `"50000000"` | offload_amount is the amount of log traffic, in bytes, that should ideally be sent per offload |
 | config.outpost_token | string | `nil` | outpost_token is the access token assigned when provisioning the service |
 | config.service_id | string | `nil` | service_id is the account identifier assigned when provisioning the service |
 | directories.logs | string | `"/var/log/kubernetes"` | logs is the directory in the node's root filesystem where the audit log file can be found |
