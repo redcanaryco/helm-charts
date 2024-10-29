@@ -74,9 +74,9 @@ config:
   # -- outpost_token is the access token assigned when provisioning the service
   outpost_token:
   # -- offload_amount is the amount of log traffic, in bytes, that should ideally be sent per offload
-  offload_amount: 50000000
+  offload_amount: "50000000"
   # -- offload_after is the amount of time, in seconds, to wait between offloads if the desired offload_amount has not yet accumulated
-  offload_after: 60
+  offload_after: "60"
   # -- http_proxy is the URL of a HTTP(s) proxy to use, if desired
   http_proxy:
   # -- log_file is the base file name the apiserver is configured to use for its audit log
