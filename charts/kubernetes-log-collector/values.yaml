@@ -81,4 +81,3 @@ config:
   http_proxy:
   # -- log_file is the base file name the apiserver is configured to use for its audit log
   log_file: audit.log
-
