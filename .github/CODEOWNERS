@@ -1,5 +1,9 @@
 #---------------#
 # DevTools Team #
 #---------------#
+* @redcanaryco/team-product-devtools
 
-* @redcanaryco/team-product-devtools 
+#---------------------#
+# Linux EDR           #
+#---------------------#
+charts/linux-edr-sensor/* @redcanaryco/team-product-linux-edr
