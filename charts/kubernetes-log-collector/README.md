@@ -56,9 +56,12 @@ It is unwise to log the full details of every API transaction, so the policy con
 TODO: Describe what details are most relevant, link to example config files
 
 ### Outbound network connectivity requirements
-* 35.188.42.15 (tcp/443)
-* 34.120.195.249 (tcp/443)
+* https://o433963.ingest.us.sentry.io
+  + 34.120.195.249
 * https://cwp-ingest.redcanary.io
+  + 3.143.139.141
+  + 3.143.177.78
+  + 52.14.101.187
 
 Note: cwp-ingest.redcanary.io IPs are static.
 
@@ -149,6 +152,7 @@ kubectl delete ns <NAMESPACE_NAME>
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | affinity selects nodes for the DaemonSet pods to run on via an affinity specification |
+| config.cluster_id | string | `"default_cluster"` | cluster_id is an identifier you choose to distinguish this cluster from others using the same service_id |
 | config.http_proxy | string | `nil` | http_proxy is the URL of a HTTP(s) proxy to use, if desired |
 | config.log_file | string | `"audit.log"` | log_file is the base file name the apiserver is configured to use for its audit log |
 | config.offload_after | string | `"60"` | offload_after is the amount of time, in seconds, to wait between offloads if the desired offload_amount has not yet accumulated |

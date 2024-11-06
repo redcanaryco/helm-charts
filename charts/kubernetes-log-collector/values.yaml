@@ -69,6 +69,8 @@ directories:
   state: /run/kubernetes-log-collector
 
 config:
+  # -- cluster_id is an identifier you choose to distinguish this cluster from others using the same service_id
+  cluster_id: default_cluster
   # -- service_id is the account identifier assigned when provisioning the service
   service_id:
   # -- outpost_token is the access token assigned when provisioning the service

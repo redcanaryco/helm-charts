@@ -44,6 +44,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: CLUSTER_ID
+              value: {{ .Values.config.cluster_id }}
             - name: SERVICE_ID
               value: {{ .Values.config.service_id }}
             - name: OUTPOST_TOKEN
