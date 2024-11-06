@@ -166,7 +166,7 @@ kubectl delete ns <NAMESPACE_NAME>
 | image.repository | string | `"redcanary-audit-log-forwarder-prod.jfrog.io/audit-log-forwarder-prod"` | repository is the image repository to pull from <REPLACE_WITH_YOUR_REGISTRY>/audit-log-forwarder-prod |
 | image.tag | string | `nil` | tag of the image to deploy. Defaults to the app version of the chart |
 | imagePullSecrets | list | `[]` | imagePullSecrets names Secrets that store credentials that are used for accessing the container registry |
-| labels | object | `{}` | labels provides extra labels for all the resources created by this chart |
+| labels | object | `{}` | labels provides extra labels for all the resources created by this chart except the Pod spec |
 | nameOverride | string | `nil` | nameOverride is a string to partially override the kubernetes-log-collector.fullname template (will maintain the release name) |
 | nodeSelector | object | `{}` | nodeSelector selects nodes for the DaemonSet pods to run on by node label |
 | podAnnotations | object | `{}` | podAnnotations provides extra annotations for the deployed pod(s) |

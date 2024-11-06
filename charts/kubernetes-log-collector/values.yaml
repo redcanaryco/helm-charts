@@ -22,7 +22,7 @@ fullnameOverride:
 
 # -- podAnnotations provides extra annotations for the deployed pod(s)
 podAnnotations: {}
-# -- labels provides extra labels for all the resources created by this chart
+# -- labels provides extra labels for all the resources created by this chart except the Pod spec
 labels: {}
 
 # -- resources sets the CPU and memory specifications for the pod(s).
