@@ -90,7 +90,6 @@ kubectl create secret docker-registry <SECRET_NAME> \
   --docker-server=<YOUR_REGISTRY_SERVER> \
   --docker-username=<YOUR_USERNAME> \
   --docker-password=<YOUR_PASSWORD> \
-  --docker-email=<YOUR_EMAIL> \
   --namespace=<NAMESPACE_NAME>
 ```
 
