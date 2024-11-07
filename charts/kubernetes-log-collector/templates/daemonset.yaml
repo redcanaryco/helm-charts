@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "kubernetes-log-collector.fullname" . }}
+  labels:
+    {{- include "kubernetes-log-collector.labels" . | nindent 4 }}
+    {{- with .Values.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "kubernetes-log-collector.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "kubernetes-log-collector.fullname" . }}
+        {{- include "kubernetes-log-collector.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: CLUSTER_ID
+              value: {{ .Values.config.cluster_id }}
+            - name: SERVICE_ID
+              value: {{ .Values.config.service_id }}
+            - name: OUTPOST_TOKEN
+              value: {{ .Values.config.outpost_token }}
+            - name: OUTPOST_HOST
+              value: https://cwp-ingest.redcanary.io/
+            - name: LOG_FILE
+              value: /logs/{{ .Values.config.log_file }}
+            - name: STATE_DIRECTORY
+              value: /state
+            {{- with .Values.config.http_proxy }}
+            - name: HTTP_PROXY
+              value: {{ . }}
+            {{- end }}
+            {{- with .Values.config.offload_amount }}
+            - name: OFFLOAD_AMOUNT
+              value: {{ quote . }}
+            {{- end }}
+            {{- with .Values.config.offload_after }}
+            - name: OFFLOAD_AFTER
+              value: {{ quote . }}
+            {{- end }}
+          securityContext:
+            runAsUser: 0
+          command: ["/opt/redcanary/kubernetes-log-collector"]
+          volumeMounts:
+            - name: logs
+              mountPath: /logs
+              readOnly: true
+            - name: state
+              mountPath: /state
+      volumes:
+        - name: logs
+          hostPath:
+            path: {{ .Values.directories.logs }}
+            type: Directory
+        - name: state
+          hostPath:
+            path: {{ .Values.directories.state }}
+            type: DirectoryOrCreate
