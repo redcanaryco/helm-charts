@@ -9,7 +9,7 @@ type: application
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 version: 0.1.0
 
-appVersion: "0.1.0"
+appVersion: "v0.1.0"
 
 keywords:
   - redcanary
