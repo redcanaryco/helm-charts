@@ -7,3 +7,4 @@
 # Linux EDR           #
 #---------------------#
 charts/linux-edr-sensor/* @redcanaryco/team-product-linux-edr
+charts/kubernetes-log-collector/* @redcanaryco/team-product-linux-edr
