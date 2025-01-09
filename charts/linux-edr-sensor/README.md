@@ -57,12 +57,13 @@ kubectl label --overwrite ns <NAMESPACE_NAME> pod-security.kubernetes.io/enforce
 ### Create a secret to hold your private registry credentials
 The image pull secret is used to securely authenticate and authorize container image pulls from your private container registry. *This may not be required in all environments*
 
+For the `docker-server` parameter, use the base URL for the registry server. For example, if it is hosted at `docker.mydomain.com` use `--docker-server="https://docker.mydomain.com"`
+
 ```console
 kubectl create secret docker-registry <SECRET_NAME> \
-  --docker-server=<YOUR_REGISTRY_SERVER> \
+  --docker-server=<YOUR_REGISTRY_SERVER_URL> \
   --docker-username=<YOUR_USERNAME> \
   --docker-password=<YOUR_PASSWORD> \
-  --docker-email=<YOUR_EMAIL> \
   --namespace=<NAMESPACE_FROM_ABOVE>
   ```
 
@@ -79,13 +80,17 @@ helm search repo redcanary/linux-edr-sensor --versions
 ```
 
 ### Install the Helm chart
+For the `image.repository` parameter, you need to specify the container image as you would to docker. For example, if your registry is at `docker.mydomain.com` and you kept the image name as `canary_forwarder`, you would use `--set image.repository="docker.mydomain.com/canary_forwarder"`.
+
+It is a best practice to use specific image tags rather than floating tags like `latest`, so be sure to specify the specific latest version in the `image.tag` parameter. For example, `--set image.tag=1.10.2-25540`.
+
 ```console
 helm install linux-edr-sensor redcanary/linux-edr-sensor \
 --version <VERSION_FROM_ABOVE> \
 --namespace=<NAMESPACE_FROM_ABOVE> \
 --set config.accessToken=<YOUR_ACCESS_TOKEN> \
 --set config.outpostAuthToken=<YOUR_OUTPOST_TOKEN> \
---set image.repository=<YOUR_REGISTRY_SERVER> \
+--set image.repository=<YOUR_REPOSITORY_NAME>/<IMAGE_NAME> \
 --set image.tag=<DESIRED TAG> \
 --set imagePullSecrets[0].name=<SECRET_NAME_FROM_ABOVE>  # Omit if not using an image pull secret
 ```
@@ -120,6 +125,49 @@ Uninstalling the helm chart will not remove the namespace or image pull secret. 
 kubectl delete ns <YOUR_NAMESPACE>
 ```
 
+## OpenShift Install
+
+Installing on OpenShift requires some additional steps before the instructions listed above, as well as some small modifications to them.
+
+1. Create and configure the project and a service account for it
+    ```console
+    oc new-project linux-edr-sensor
+    ```
+
+    ```console
+    oc create sa linux-edr-sensor
+    ```
+
+    OpenShift project creation also creates a namespace of the same name, so keep that in mind for `helm` and `kubectl` commands that take namespace arguments.
+
+2. Configure policy for the new service account
+    ```console
+    oc adm policy add-scc-to-user privileged -z linux-edr-sensor
+    ```
+
+    This adds the `privileged` Security Context Contstraint to the service account's constraints. This allows pods that specify this service acount to run effectively without security constraints. This is necessary because the sensor needs full access to all of the host resources to properly monitor all the other activity on the node.
+
+3. Follow normal install instructions with some minor changes
+    Skip the first step of namespace creation, since one was already created with the project.
+
+    Follow the rest of the steps until the final one, using `linux-edr-sensor` as the namespace name.
+
+    For the final `helm install` command, you will need to add two extra `--set` flags to ensure the chart installs the pods with the correct service account association:
+
+    ```console
+    --set useServiceAccount=true \
+    --set serviceAccountName=linux-edr-sensor \
+    ```
+
+    OpenShift clusters (aside from single-node development clusters) also have control plane nodes tainted by default, so a toleration will need to be added to allow monitoring control plane nodes:
+
+    ```console
+    --set tolerations[0].key="node-role.kubernetes.io/master"
+    --set tolerations[0].effect=NoSchedule
+    ```
+
+    You may want to use the `--dry-run` parameter to `helm` on your first attempt in order to look at the resulting resources, to make sure the `serviceAccountName` and `tolerations` are set as you expected in the pod spec.
+
 ## Values
 
 | Key | Type | Default | Description |
@@ -144,7 +192,9 @@ kubectl delete ns <YOUR_NAMESPACE>
 | persistence.tmpDir | string | `"/tmp"` | The path on the host to use for persistent tmp storage. Only used when type is set to 'hostpath'. |
 | podAnnotations | object | `{}` | Additional annotations for the deployed pod(s). |
 | resources | object | `{}` | Sets the allocated CPU and memory specifications for the pod(s). |
+| serviceAccountName | string | `""` | If a ServiceAccount is being used, this names it |
 | tolerations | list | `[]` | Tolerations allow the pod to be scheduled onto nodes with specific taints. Examples can be used if needed to tolerate all taints, or for well-known control-plane taints. |
+| useServiceAccount | bool | `false` | Whether or not the DaemonSet's pod should be associated with a ServiceAccount |
 
 ----------------------------------------------
 <br>

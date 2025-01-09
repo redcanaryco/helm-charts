@@ -22,6 +22,9 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.useServiceAccount }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end }}
       hostNetwork: true
       hostPID: true
       {{- with .Values.tolerations }}
