@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.10] - 2025-01-09
+
+### Changed
+- Added support for installing in OpenShift/OKd clusters.
+
 ## [0.1.9] - 2024-11-05
 
 ### Changed

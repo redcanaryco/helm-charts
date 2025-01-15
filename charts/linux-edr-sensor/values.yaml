@@ -61,6 +61,12 @@ affinity: {}
   #             values:
   #               - amd64
 
+# -- Whether or not the DaemonSet's pod should be associated with a ServiceAccount
+useServiceAccount: false
+
+# -- If a ServiceAccount is being used, this names it
+serviceAccountName: ""
+
 persistence:
   # -- Whether or not persistent storage should be used for the sensor's /tmp and /logs data.
   enabled: true
