@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.11] - 2025-02-05
+
+### Changed
+- GKE and OpenShift are now listed as supported distributions in README.md
+- The `persistence` value now also controls the `nodestate` mount for the container and allows setting it via `persistence.nodestateDir`. This is necessary for proper GKE support.
+- The README.md file now describes the required `persistence.nodestateDir` setting for GKE installs.
+
 ## [0.1.10] - 2025-01-09
 
 ### Changed

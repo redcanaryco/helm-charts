@@ -12,6 +12,8 @@ The {{ template "chart.name" . }} chart has undergone testing for deployment on 
 * Rancher k3s & k3d
 * Amazon EKS
 * Azure AKS
+* Google GKE (see extra configuration requirements below)
+* OpenShift (see special instructions below)
 
 ## Multi-architecture kubernetes clusters
 The current state of the Canary Forwarder Docker image does not support multi-architecture builds. In the context of a multi-architecture Kubernetes cluster (including both arm64 and amd64 nodes), deploying two daemonsets becomes necessary. Each daemonset should reference the respective image and incorporate the required affinities to accommodate this architecture diversity.
@@ -123,6 +125,16 @@ Uninstalling the helm chart will not remove the namespace or image pull secret. 
 
 ```console
 kubectl delete ns <YOUR_NAMESPACE>
+```
+
+## Google Kubernetes Engine Configuration
+
+When installing the sensor in a Google Cloud environment using Google's Container Optimized OS, you must ensure that the persistent directory for node state is placed in a different location than default, because the default location is mounted with the `noexec` flag.
+
+An option to `helm install` that has been tested to work is the following:
+
+```console
+--set persistence.nodestateDir=/var/lib/toolbox/redcanary
 ```
 
 ## OpenShift Install

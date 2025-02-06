@@ -12,6 +12,8 @@ The linux-edr-sensor chart has undergone testing for deployment on these Kuberne
 * Rancher k3s & k3d
 * Amazon EKS
 * Azure AKS
+* Google GKE (see extra configuration requirements below)
+* OpenShift (see special instructions below)
 
 ## Multi-architecture kubernetes clusters
 The current state of the Canary Forwarder Docker image does not support multi-architecture builds. In the context of a multi-architecture Kubernetes cluster (including both arm64 and amd64 nodes), deploying two daemonsets becomes necessary. Each daemonset should reference the respective image and incorporate the required affinities to accommodate this architecture diversity.
@@ -125,6 +127,16 @@ Uninstalling the helm chart will not remove the namespace or image pull secret. 
 kubectl delete ns <YOUR_NAMESPACE>
 ```
 
+## Google Kubernetes Engine Configuration
+
+When installing the sensor in a Google Cloud environment using Google's Container Optimized OS, you must ensure that the persistent directory for node state is placed in a different location than default, because the default location is mounted with the `noexec` flag.
+
+An option to `helm install` that has been tested to work is the following:
+
+```console
+--set persistence.nodestateDir=/var/lib/toolbox/redcanary
+```
+
 ## OpenShift Install
 
 Installing on OpenShift requires some additional steps before the instructions listed above, as well as some small modifications to them.
@@ -187,9 +199,10 @@ Installing on OpenShift requires some additional steps before the instructions l
 | labels | object | `{}` | Additional labels to add to all the resources created by this chart. |
 | nameOverride | string | `""` | String to partially override linux-edr-sensor.fullname template (will maintain the release name) |
 | nodeSelector | object | `{}` | When you specify a nodeSelector, the Kubernetes scheduler will only consider nodes that match the labels you have specified. nodeAffinity is preferred see k8s documentations for further detail - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ |
-| persistence.enabled | bool | `true` | Whether or not persistent storage should be used for the sensor's /tmp and /logs data. |
-| persistence.logDir | string | `"/var/log"` | The path on the host to use for persistent log storage. Only used when type is set to 'hostpath'. |
-| persistence.tmpDir | string | `"/tmp"` | The path on the host to use for persistent tmp storage. Only used when type is set to 'hostpath'. |
+| persistence.enabled | bool | `true` | Whether or not persistent storage should be used for the sensor's /var, /tmp and /logs data. |
+| persistence.logDir | string | `"/var/log"` | The path on the host to use for persistent log storage. Only used when enabled is set to true. |
+| persistence.nodestateDir | string | `"/var/lib/misc/redcanary"` | The path on the host to use for persistent node state. You must ensure this is not on a mount with the 'noexec' flag. Only used when enabled is set to true. |
+| persistence.tmpDir | string | `"/tmp"` | The path on the host to use for persistent tmp storage. Only used when enabled is set to true. |
 | podAnnotations | object | `{}` | Additional annotations for the deployed pod(s). |
 | resources | object | `{}` | Sets the allocated CPU and memory specifications for the pod(s). |
 | serviceAccountName | string | `""` | If a ServiceAccount is being used, this names it |

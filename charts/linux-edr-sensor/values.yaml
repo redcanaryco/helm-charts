@@ -68,11 +68,13 @@ useServiceAccount: false
 serviceAccountName: ""
 
 persistence:
-  # -- Whether or not persistent storage should be used for the sensor's /tmp and /logs data.
+  # -- Whether or not persistent storage should be used for the sensor's /var, /tmp and /logs data.
   enabled: true
-  # -- The path on the host to use for persistent tmp storage. Only used when type is set to 'hostpath'.
+  # -- The path on the host to use for persistent node state. You must ensure this is not on a mount with the 'noexec' flag. Only used when enabled is set to true.
+  nodestateDir: /var/lib/misc/redcanary
+  # -- The path on the host to use for persistent tmp storage. Only used when enabled is set to true.
   tmpDir: /tmp
-  # -- The path on the host to use for persistent log storage. Only used when type is set to 'hostpath'.
+  # -- The path on the host to use for persistent log storage. Only used when enabled is set to true.
   logDir: /var/log
 
 # -- Values used for the default configuration. These will not be used if overrideConfig is set to true.
