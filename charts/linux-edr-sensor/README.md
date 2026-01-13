@@ -29,8 +29,10 @@ The current state of the Canary Forwarder Docker image does not support multi-ar
 
 ### Outbound network connectivity
 * s3-us-east-2.amazonaws.com (tcp/443)
-* 35.188.42.15 (tcp/443)
-* 34.120.195.249 (tcp/443)
+* 34.160.81.0/32 (tcp/443)
+* 34.102.210.18/32 (tcp/443)
+* 2600:1901:0:5e8a::/64 (tcp/443)
+* 2600:1901:0:7edb::/64 (tcp/443)
 * https://cwp-ingest.redcanary.io
 
 Note: cwp-ingest.redcanary.io IPs are static.
