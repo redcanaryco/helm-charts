@@ -3,6 +3,26 @@ entries:
   kubernetes-log-collector:
   - apiVersion: v2
     appVersion: v0.1.0
+    created: "2026-01-13T18:59:57.902728271Z"
+    description: A Helm chart for deploying the Red Canary Kubernetes Log Collector
+    digest: 5dc584eae8933be56f02735e7f41b11c2cfa45a7a313f2f01090de75dd7e20e7
+    home: https://github.com/redcanaryco/helm-charts/tree/main/charts/kuberntes-log-collector
+    icon: https://redcanary.com/wp-content/themes/redcanary/assets/img/apple-icon-152x152.png
+    keywords:
+    - redcanary
+    - kubernetes
+    - audit
+    - logs
+    maintainers:
+    - email: levi.pearson@redcanary.com
+      name: Levi Pearson
+    name: kubernetes-log-collector
+    type: application
+    urls:
+    - https://github.com/redcanaryco/helm-charts/releases/download/kubernetes-log-collector-0.1.2/kubernetes-log-collector-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: v0.1.0
     created: "2024-11-26T18:38:28.705557687Z"
     description: A Helm chart for deploying the Red Canary Kubernetes Log Collector
     digest: 77230422ddee4aacf527bd6e619486699582e39f3eaaaf28e8b29d8c7648da1d
@@ -42,6 +62,26 @@ entries:
     - https://github.com/redcanaryco/helm-charts/releases/download/kubernetes-log-collector-0.1.0/kubernetes-log-collector-0.1.0.tgz
     version: 0.1.0
   linux-edr-sensor:
+  - apiVersion: v2
+    appVersion: 1.11.2-26490
+    created: "2026-01-13T18:59:58.179007416Z"
+    description: A Helm chart for deploying the Red Canary Linux EDR Sensor to Kubernetes
+    digest: fb1374acef9eb9618ce2fcfd7f3bb4fb6e7f1a386952137863c194558c006684
+    home: https://github.com/redcanaryco/helm-charts/tree/main/charts/linux-edr-sensor
+    icon: https://redcanary.com/wp-content/themes/redcanary/assets/img/apple-icon-152x152.png
+    keywords:
+    - redcanary
+    - linux
+    - edr
+    - sensor
+    maintainers:
+    - email: thomas.jordan@redcanary.com
+      name: Thomas Jordan
+    name: linux-edr-sensor
+    type: application
+    urls:
+    - https://github.com/redcanaryco/helm-charts/releases/download/linux-edr-sensor-0.1.14/linux-edr-sensor-0.1.14.tgz
+    version: 0.1.14
   - apiVersion: v2
     appVersion: 1.11.2-26490
     created: "2025-04-22T17:42:52.018611848Z"
@@ -322,4 +362,4 @@ entries:
     urls:
     - https://github.com/redcanaryco/helm-charts/releases/download/linux-edr-sensor-0.1.0/linux-edr-sensor-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-22T17:42:52.018731763Z"
+generated: "2026-01-13T18:59:58.179156714Z"
