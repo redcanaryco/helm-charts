@@ -7,7 +7,7 @@ The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html
 ## [0.1.15]
 
 ### Changed
-- Added `priorityClassName` to `values.yml` to support priorityClasses
+- Added `priorityClassName` to `values.yml` and `daemonset.yml` to support priorityClasses
 
 ## [0.1.13] - 2025-04-21
 
