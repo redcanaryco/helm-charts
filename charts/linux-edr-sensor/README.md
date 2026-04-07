@@ -206,6 +206,7 @@ Installing on OpenShift requires some additional steps before the instructions l
 | persistence.nodestateDir | string | `"/var/lib/misc/redcanary"` | The path on the host to use for persistent node state. You must ensure this is not on a mount with the 'noexec' flag. Only used when enabled is set to true. |
 | persistence.tmpDir | string | `"/tmp"` | The path on the host to use for persistent tmp storage. Only used when enabled is set to true. |
 | podAnnotations | object | `{}` | Additional annotations for the deployed pod(s). |
+| priorityClassName | string | `""` | If a PriorityClass is being used, this names it |
 | resources | object | `{}` | Sets the allocated CPU and memory specifications for the pod(s). |
 | serviceAccountName | string | `""` | If a ServiceAccount is being used, this names it |
 | tolerations | list | `[]` | Tolerations allow the pod to be scheduled onto nodes with specific taints. Examples can be used if needed to tolerate all taints, or for well-known control-plane taints. |

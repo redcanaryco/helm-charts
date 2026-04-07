@@ -67,6 +67,9 @@ useServiceAccount: false
 # -- If a ServiceAccount is being used, this names it
 serviceAccountName: ""
 
+# -- If a PriorityClass is being used, this names it
+priorityClassName: ""
+
 persistence:
   # -- Whether or not persistent storage should be used for the sensor's /var, /tmp and /logs data.
   enabled: true
