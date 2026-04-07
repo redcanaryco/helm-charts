@@ -24,7 +24,7 @@ spec:
     spec:
       {{- if .Values.priorityClassName }}
       priorityClassName: {{.Values.priorityClassName }}
-      {{ -end }}
+      {{ - end }}
       {{- if .Values.useServiceAccount }}
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}
