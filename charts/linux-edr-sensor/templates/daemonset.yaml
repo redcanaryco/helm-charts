@@ -23,8 +23,8 @@ spec:
         {{- end }}
     spec:
       {{- if .Values.priorityClassName }}
-      priorityClassName: {{.Values.priorityClassName }}
-      {{ - end }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
       {{- if .Values.useServiceAccount }}
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}
