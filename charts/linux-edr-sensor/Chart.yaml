@@ -7,10 +7,10 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.16
+version: 0.1.17
 
 # This is the version number of the sensor being deployed by the chart.
-appVersion: "1.12.2-29034"
+appVersion: "1.13.1-29906"
 
 keywords:
   - redcanary

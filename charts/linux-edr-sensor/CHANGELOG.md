@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.17]
+
+### Changed
+- Updated `appVersion` to the `"1.13.1-29906"` docker tag for the sensor image
+
 ## [0.1.16]
 
 ### Changed
